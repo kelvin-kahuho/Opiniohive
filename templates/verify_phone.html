@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+{% block content %}    
+
+
+<form class="form" action="{{ url_for('verify_phone', phone_number=phone_number) }}"  method="POST">
+    <p class="error">{{ error }}</p>
+    <p class="error">{{ success }}</p>
+
+    <h1>Verify Your Account. Get verification link.</h1>
+    <label for="phone_number">Enter phone number:<small>Format: xxx-xxx-xxxx</small></label>
+    <input type="" id="phone_number" name="phone_number" placeholder="{{ user[3]}}" required>
+    <button class="button" type="submit">Send Verification Link</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends 'admin_main.html' %}
+{% block content %}
+
+<div class="user-details-container">
+
+    <h1>User Information</h1>
+    <p class="error">{{ success }}</p>
+
+{% if user %}
+    <div class="user-details">
+
+        <table class="user-details-table">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Email Verified</th>
+                <th>Phone Verified</th>
+            </tr>
+            <tr>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>{% if user[5] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+                <td>{% if user[4] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+            </tr>
+        </table>
+
+
+        {% if user[7] %}
+            <p><strong>Front License:</strong> <img src="{{ url_for('static', filename='images/' + user[7]) }}" alt="Front License"></p>
+        {% else %}
+            <p><strong>Front License:</strong> Not available</p>
+        {% endif %}
+
+        {% if user[8] %}
+            <p><strong>Back License:</strong> <img src="{{ url_for('static', filename='images/' + user[8]) }}" alt="Back License"></p>
+        {% else %}
+            <p><strong>Back License:</strong> Not available</p>
+        {% endif %}
+        {% if user[9] == 0 %}
+        <!-- Display form for unverified license -->
+        <form action="{{ url_for('verify_license', user_id=user[0]) }}" method="post">
+            <button class="button" type="submit">Verify Drivers License</button>
+        </form>
+        {% elif user[9] == 1 %}
+            <!-- Display non-clickable button for verified license -->
+            <button class="verified-button" type="button" disabled>Drivers License Verified!</button>
+        {% endif %}
+
+    </div>
+{% else %}
+    <p>User not found.</p>
+{% endif %}
+
+</div>
+
+
+{% endblock content %}

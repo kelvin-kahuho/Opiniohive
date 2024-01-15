@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+    <title>Admin_Login</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo"> 
+
+        <form action="/admin_login" method="post" class="form">
+            <h1>Admin Login</h1>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

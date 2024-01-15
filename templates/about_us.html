@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Opiniohive</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="header">
+            <a href="/" class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+            </a>
+    
+            <nav class="navbar">
+                <a href="/">Home</a>
+                <a href="{{ url_for('about')}}">About</a>
+                <a href="{{ url_for('FAQ')}}">FAQ</a>
+                <a href="{{ url_for('login')}}">Login</a>
+                <button class="button" onclick="location.href='/register'">Register Now</button>
+            </nav>
+        </div>
+
+        <div class="about-us-container">
+            <div>
+
+                <h1>About Us</h1>
+                <p>Welcome to Opiniohive, where your opinions matter!</p>
+
+                <p>At Opiniohive, we value your insights and aim to create a platform that connects consumers with valuable opportunities to share their preferences and experiences. Our mission is to gather meaningful data through surveys, ensuring that your voice is heard by businesses and organizations.</p>
+
+                <p>Join us on this journey as we strive to enhance our understanding of consumer preferences in the e-commerce landscape. Your participation makes a difference!</p>
+
+                <div>
+
+                    <h3>Participate in our survey and get paid <strong>15$!</strong></h3>
+                    <button class="button" onclick="location.href='/register'">Register Now</button>
+            
+                </div>
+
+
+            </div>
+    
+            <img src="{{ url_for('static', filename='images/happy-people.png') }}" alt="Opiniohive Team">
+
+        </div>
+
+    </div>
+</body>
+</html>

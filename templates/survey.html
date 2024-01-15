@@ -1,0 +1,107 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<form action="{{ url_for('submit_survey') }}" method="post" class="survey form">
+    <h1>E-Commerce Survey</h1>
+    <p>Thank you for participating in our survey! Your opinions are valuable to us. This survey aims to understand your preferences and experiences with the top e-commerce websites in the USA.</p>
+
+    <h3>Demographic Information</h3>
+    <!-- Question 1 -->
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+        <option value="">Select</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="non_binary">Non-binary</option>
+        <option value="prefer_not_to_say">Prefer not to say</option>
+    </select>
+
+    <!-- Question 2 -->
+    <label for="age">Age:</label>
+    <select id="age" name="age" required>
+        <option value="">Select</option>
+        <option value="under_18">Under 18</option>
+        <option value="18_24">18-24</option>
+        <option value="25_34">25-34</option>
+        <option value="35_44">35-44</option>
+        <option value="45_54">45-54</option>
+        <option value="55_64">55-64</option>
+        <option value="65_or_older">65 or older</option>
+    </select>
+
+    <!-- Question 3 -->
+    <label for="shopping_frequency">Frequency of Online Shopping:</label>
+    <select id="shopping_frequency" name="shopping_frequency" required>
+        <option value="">Select</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+        <option value="rarely">Rarely</option>
+        <option value="never">Never</option>
+    </select>
+
+    <h3>E-Commerce Website Preferences</h3>
+    <!-- Question 4 -->
+    <label for="preferred_website">Which e-commerce website do you prefer for online shopping in the past year?</label>
+    <select id="preferred_website" name="preferred_website" required>
+        <option value="">Select</option>
+        <option value="amazon">Amazon</option>
+        <option value="walmart">Walmart</option>
+        <option value="ebay">eBay</option>
+        <option value="target">Target</option>
+        <option value="best_buy">Best Buy</option>
+        <option value="other">Other (please specify)</option>
+    </select>
+    <input type="text" id="other_website_text" name="other_website_text">
+
+
+    <!-- Question 5 -->
+    <label>Please rate your overall satisfaction with each of the e-commerce websites you've used on a scale from 1 to 5 (1 being very dissatisfied, 5 being very satisfied):</label>
+    <select id="satisfaction" name="satisfaction" required>
+        <option value="">Select</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <!-- Question 6 -->
+    <label for="influence_factors">What factors influence your choice when deciding where to make online purchases?</label>
+    <select id="influence_factors" name="influence_factors" required>
+        <option value="">Select</option>
+        <option value="price_competitiveness">Price Competitiveness</option>
+        <option value="product_variety">Product Variety</option>
+        <option value="customer_reviews">Customer Reviews</option>
+        <option value="shipping_speed">Shipping Speed</option>
+        <option value="user_interface_experience">User Interface and Experience</option>
+        <option value="brand_reputation">Brand Reputation</option>
+        <option value="deals_discounts">Deals and Discounts</option>
+        <option value="customer_service">Customer Service</option>
+        <option value="other_factor">Other (please specify)</option>
+    </select>
+    <input type="text" id="other_factor_text" name="other_factor_text">
+
+
+    <!-- Question 7 -->
+    <label for="preferred_website_again">If you had to choose only one e-commerce website for all your online shopping needs, which one would you prefer?</label>
+    <select id="preferred_website_again" name="preferred_website_again" required>
+        <option value="">Select</option>
+        <option value="amazon">Amazon</option>
+        <option value="walmart">Walmart</option>
+        <option value="ebay">eBay</option>
+        <option value="target">Target</option>
+        <option value="best_buy">Best Buy</option>
+        <option value="other">Other (please specify)</option>
+    </select>
+    <input type="text" id="preferred_website_text" name="preferred_website_text">
+
+    <!-- Question 8 -->
+    <label for="improvements_features">What improvements or additional features would you like to see on your preferred e-commerce website? (Open-ended)</label>
+    <textarea id="improvements_features" name="improvements_features" rows="4"></textarea>
+
+
+    <button type="submit">Submit Survey</button>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opioniohive</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main">
+
+
+        <div class="header">
+            <a href="{{url_for('dashboard')}}" class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+            </a>
+    
+            <nav class="navbar">
+                <a href="{{ url_for('chat')}}">Chat</a>
+                <a href="{{ url_for('submit_survey')}}">Survey</a>
+                <a href="{{ url_for('wallet')}}">Wallet</a>
+                <a href="{{ url_for('profile')}}">Profile</a>
+                <a href="{{ url_for('about')}}" target="_blank">About</a>
+                <a href="{{ url_for('FAQ')}}" target="_blank">FAQ</a>
+                <button class="button" onclick="location.href='/logout'">Logout</button>
+
+            </nav>
+        </div>
+
+        {% block content %}
+
+
+        {% endblock content%}
+
+    </div>
+
+    
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    
+</body>
+</html>

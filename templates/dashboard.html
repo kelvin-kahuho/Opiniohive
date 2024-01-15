@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h3>Welcome {{ user[1] }}!</h3>
+
+<section class="notification-section">
+
+    <div class="users-table">
+        <h2>Notifications</h2>
+    
+        <table class="user-details-table">
+
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Status</th>
+                    <th>Notification</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Phone Number Verification -->
+                <tr>
+                    <td>Verify Account</td>
+                    <td>{{ "Verified" if user[5] else "Not Verified" }}</td>
+                    <td>
+                        {% if not user[5] %}
+                            <form action="{{ url_for('verify_phone') }}" method="get">
+                                <button class="button" type="submit">Verify now</button>
+                            </form>
+                        {% else %}
+                            No Notification
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="survey-summary">
+    <h2>Survey Summary</h2>
+    <p>Total Surveys Completed: {{ survey_count }}</p>
+
+    {% if average_satisfaction %}
+    <p>Average Satisfaction Rating: {{ average_satisfaction }}%</p>
+    {% endif %}
+
+</section>
+
+
+
+
+
+
+
+
+{% endblock content %}

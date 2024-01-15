@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="user-details-container">
+    <h1>User Profile</h1>
+
+    {% if user %}
+    <div class="user-details">
+
+        <table class="user-details-table">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Email Verified</th>
+                <th>Phone Verified</th>
+            </tr>
+            <tr>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>{% if user[5] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+                <td>{% if user[4] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+            </tr>
+        </table>
+        
+        
+        {% if user[7] %}
+            <p><strong>Front License:</strong> <img src="{{ url_for('static', filename='images/' + user[7]) }}" alt="Front License"></p>
+        {% else %}
+            <p><strong>Front License:</strong> Not available</p>
+        {% endif %}
+        
+        {% if user[8] %}
+            <p><strong>Back License:</strong> <img src="{{ url_for('static', filename='images/' + user[8]) }}" alt="Back License"></p>
+        {% else %}
+            <p><strong>Back License:</strong> Not available</p>
+        {% endif %}
+        
+            <div class="action-buttons">
+                <button class="button1" onclick="location.href='/change_password'">Change Password</button>
+                <button class="button1" onclick="location.href='/change_email'">Change Email</button>
+                <button class="button1" onclick="location.href='/delete_account'">Delete Account</button>
+            </div>
+        {% else %}
+            <p>User not found.</p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+{% endblock content %}

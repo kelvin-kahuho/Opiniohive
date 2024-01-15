@@ -1,0 +1,43 @@
+{% extends 'admin_main.html' %}
+{% block content %}
+
+<div class="users-table">
+    
+    <table class="user-details-table">
+        <h1>Admin Payout Requests</h1>
+    
+        <thead>
+            <tr>
+                <th></th>
+                <th>User Name</th>
+                <th>Request Date</th>
+                <th>Paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payout in payouts %}
+                <tr>
+                    <td>{{ payout[0] }}</td>  
+                    <td>{{ payout[2] }}</td>  
+                    <td>{{ payout[3] }}</td> 
+                    <td>{{ payout[4] }}</td> 
+                    <td>
+                        {% if payout[4] == 'NO' %}
+                            <form method="post" action="{{ url_for('admin_pay_users', payout_id=payout[0], user_id=payout[1]) }}">
+                                <button type="submit" class="button">Pay</button>
+                            </form>
+                        {% else %}
+                            <button class="verified-button" type="button" disabled>Paid</button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    </table>
+
+</div>
+
+
+{% endblock content %}

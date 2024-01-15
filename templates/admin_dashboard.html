@@ -1,0 +1,43 @@
+{% extends 'admin_main.html' %}
+{% block content %}
+<h1>Welcome, {{admin[4] }}. </h1>
+
+<div class="dashboard-container">
+    <h2>Users Data</h2>
+
+    <div class="users-table">
+        <table class="user-details-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Is Phone Verified</th>
+                    <th>Is Email Verified</th>
+                    <th>Is Licence Verified</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user[1] }}</td>
+                        <td>{{ user[2] }}</td>
+                        <td>{{ user[3] }}</td>
+                        <td>{% if user[5] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+                        <td>{% if user[6] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+                        <td>{% if user[9] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+
+                        <td>
+                            <form action="{{ url_for('view_user_details', user_id=user[0]) }}" method="get">
+                                <button class="button" type="submit">View Details</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock content %}

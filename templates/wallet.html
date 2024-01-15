@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div class="wallet-details">
+    <h1>User Wallet Details</h1>
+    {% if request.args.get('success') %}
+        <p class="error">{{ request.args.get('success') }}</p>
+    {% endif %}
+
+    {% if request.args.get('error') %}
+        <p class="error">{{ request.args.get('error') }}</p>
+    {% endif %}
+            
+            
+    <p><strong>Username:</strong> {{ user[1] }}</p>
+    <p class="balance"><strong>Balance:</strong> ${{ wallet_info[2] }}</p>
+
+    {% if request_payout_button %}
+        <form method="post" action="{{ url_for('request_payout') }}">
+            <button type="submit" name="payout_request" class="button">Request Payout</button>
+        </form>
+    {% endif %}
+
+
+</div>
+
+{% endblock content %}

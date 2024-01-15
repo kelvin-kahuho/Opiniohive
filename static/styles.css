@@ -1,0 +1,419 @@
+/* Universal Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-20deg, white, white, #ffffff, white,#a3d6ff);
+    background-image: url("/static/bg.png");
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+/* Main.html styling*/
+/* Logged In User Page Styles */
+.main {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    background:transparent;
+}
+
+.logo img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.navbar a {
+    font-size: 18px;
+    color: #000000;
+    font-weight: 300;
+    text-decoration: none;
+    padding: 20px;
+}
+
+/* Sign-up Page Styles */
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+}
+
+.form {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    padding: 20px;
+    border: solid #feea79 1px;
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form h1, .form h3 {
+    text-align: left;
+    color: #173e5e;
+    margin: 20px 0;
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: solid #feea79 1px;
+}
+
+.form button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #004aad;
+    border: none;
+    border-radius: 5%;
+    text-align: center;
+    color: white;
+}
+
+/* Home Page Styles */
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.info img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+.info section {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px;
+    padding: 20px;
+    border: solid #feea79 2px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* About Us Page styling */
+.about-us-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-us-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.about-us-container p {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Image styling */
+.about-us-container img {
+    max-width: 50%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+
+/* FAQ Page Styles */
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 800px;
+    width: 100%;
+    max-width: 1000px;
+    max-height: fit-content;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-container h3 {
+    color: #0066cc;
+}
+
+.faq-container p {
+    color: #444;
+}
+
+/* Survey Page Styles */
+.survey {
+    max-width: 800px;
+    margin-top: 500px;
+}
+
+.survey h3 {
+    margin: 15px;
+    text-align: center;
+}
+
+.survey label, .survey textarea, .survey select, .survey input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Universal Button Styles */
+.button, .verified-button {
+    text-align: center;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: larger;
+    border: none;
+    border-radius: 5%;
+    background-color: #004aad;
+    border-radius: 5px;
+}
+
+.button1 {
+    text-align: center;
+    color: white;
+    width: 100px;
+    height: 50px;
+    padding: 10px;
+    font-size: small;
+    border: none;
+    border-radius: 5%;
+    background-color: #004aad;
+    border-radius: 5px;
+}
+
+
+.verified-button {
+    background-color: lightgreen;
+}
+
+/* Admin Dashboard Styles */
+.dashboard-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-details {
+    margin-top: 20px;
+}
+
+.admin-details p {
+    margin-bottom: 10px;
+}
+
+/* User Details Styles */
+.user-details-container {
+    margin-top: 150px;
+}
+
+.user-details {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.user-details img {
+    width: 100%;
+    max-width: 450px;
+    max-height: 200px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.user-details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-details-table th, .user-details-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.user-details-table th {
+    background-color: #f2f2f2;
+}
+
+/* Error*/
+.error {
+    color: red;
+    font-size: large;
+}
+
+/* Additional styling for user profile */
+.user-details {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Wallet styling */
+.wallet-details {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #feea79;
+    border-radius: 5px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.wallet-details h1{
+    text-align: center;
+    color: #a3d6ff;
+}
+
+.balance {
+    font-size: 50px;
+    color: #004aad;
+    font-weight: 800;
+}
+
+/* Css code for chat page*/
+
+.chat-container {
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .chat-header {
+    background-color: #f5f5f5;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .chat-body {
+    height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  .message-item {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .user-message {
+    justify-content: flex-end;
+  }
+  
+  .user-message .message-text {
+    background-color: #DCF8C6;
+    border-radius: 15px 15px 0 15px;
+    padding: 10px;
+    margin-right: 5px;
+  }
+  
+  .bot-message .message-text {
+    background-color: #f5f5f5;
+    border-radius: 15px 15px 15px 0;
+    padding: 10px;
+    margin-left: 5px;
+  }
+  
+  .message-text {
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  .chat-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+  }
+  
+  #chat-form {
+    display: flex;
+    flex-grow: 1;
+  }
+  
+  #user-input {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+  }
+  
+  #send-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  #send-btn:hover {
+    background-color: #3e8e41;
+  }

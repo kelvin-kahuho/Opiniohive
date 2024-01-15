@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="main">
+
+
+        <div class="header">
+            <a href="/" class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+            </a>
+    
+            <nav class="navbar">
+                <a href="/">Home</a>
+                <a href="{{ url_for('about')}}">About</a>
+                <a href="{{ url_for('FAQ')}}">FAQ</a>
+                <a href="{{ url_for('login')}}">Login</a>
+                <button class="button" onclick="location.href='/register'">Register Now</button>
+            </nav>
+        </div>
+
+
+        <div class="faq-container">
+            <h1>Frequently Asked Questions</h1>
+    
+            <div class="faq-item">
+                <h3 class="question">Q1: How do I register on the platform?</h3>
+                <div class="answer">
+                    <p>A1: Users can sign up by providing their email address, phone number (USA only), and password.</p>
+                </div>
+            </div>
+    
+            <div class="faq-item">
+                <h3 class="question">Q2: What is the email verification process?</h3>
+                <div class="answer">
+                    <p>A2: Upon registration, users receive a confirmation email with a verification link to their provided phone number.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q3: How do I verify my driver's license?</h3>
+                <div class="answer">
+                    <p>A3: After email verification, users are prompted to upload a photo or scan of their driver's license through a secure portal.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q4: How does phone number verification work?</h3>
+                <div class="answer">
+                    <p>A4: Users receive a verification code via SMS to the phone number provided during registration. They need to enter the code on the platform to confirm their phone number.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q5: What happens after completing the survey?</h3>
+                <div class="answer">
+                    <p>A5: Users are prompted to enter their PayPal account information to receive a $15 reward for their participation. But only after they complete the verification process</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q6: How does the referral program work?</h3>
+                <div class="answer">
+                    <p>A6: Users are provided with a unique invite code that they can share with friends and family. When a new user signs up using the invite code, both the new user and the original user receive a benefit.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q7: How can I accumulate rewards?</h3>
+                <div class="answer">
+                    <p>A7: Users can accumulate rewards in their accounts based on survey participation and successful referrals.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q8: What options do I have to redeem my rewards?</h3>
+                <div class="answer">
+                    <p>A8: Users may have options to redeem rewards, such as converting them to cash via PayPal or choosing from a selection of gift cards.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3 class="question">Q9: How is my PayPal account verified for reward distribution?</h3>
+                <div class="answer">
+                    <p>A9: Users will receive a verification link or code to their registered email address. They need to verify their PayPal account to ensure the accuracy of the provided information.</p>
+                </div>
+            </div>
+    
+            
+    
+            <div class="faq-item">
+                <h3 class="question">Q10: Can I share my invite code through social media?</h3>
+                <div class="answer">
+                    <p>A10: Yes, users are encouraged to share their invite codes through promotional messages, social media, or other channels to maximize referrals.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

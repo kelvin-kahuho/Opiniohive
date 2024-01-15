@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+    <title>Sign up</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <a href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+        </a>   
+          
+
+
+        <form action="/register" method="post" class="form">
+            <h1>Sign Up</h1>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone_number">Phone Number (USA):</label>
+            <input type="tel" id="phone_number" name="phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+            <small>Format: xxx-xxx-xxxx</small>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <small>Password must meet the following requirements:</small>
+            <ul>
+                <li><small>At least 8 characters long</small></li>
+                <li><small>Contain both uppercase and lowercase letters</small></li>
+                <li><small>Include at least one digit</small></li>
+                <li><small>Contain at least one special character (!@#$%^&*(),.?":{}|<>)</small></li>
+                <li><small>Must not contain spaces</small></li>
+            </ul>
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+            <button type="submit">Sign up</button>
+            <p>Already signed up? 
+                <a href="{{ url_for('login')}}">Login</a> 
+            </p>
+        </form>
+
+
+    </div>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+
+</body>
+</html>
