@@ -1,35 +1,43 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<div id="chat"></div>
 
-    <form id="message-form">
-        <input type="text" id="message-input" autocomplete="off">
-        <button type="submit">Send</button>
-    </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script>
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-        socket.on('message', function(data) {
-            // Handle incoming messages and display them in the chat window
-            var chatDiv = document.getElementById('chat');
-            var messageDiv = document.createElement('div');
-            messageDiv.innerHTML = '<strong>' + data.sender_id + ':</strong> ' + data.message;
-            chatDiv.appendChild(messageDiv);
-        });
+<div class="chat-container">
+    <div class="chat-header">
+        <h4>Chat with a virtual assistant</h4>
+    </div>
 
-        document.getElementById('message-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var messageInput = document.getElementById('message-input');
-            var message = messageInput.value.trim();
-            if (message !== '') {
-                // Send the message to the server
-                socket.emit('message', { sender_id: {{ user_id }}, receiver_id: {{ admin_id }}, message: message });
-                messageInput.value = '';
-            }
-        });
-    </script>
+
+    <div id="chat-body">
+
+        {% for chat in chats %}
+            <div class="message-item {% if chat[5]=='user' %}user-message{% else %}admin-message{% endif %}">
+                <strong class="message-text">{{ chat[3]}}</strong>
+            </div>
+        {% endfor %} 
+    
+    </div>
+
+    <div class="chat-footer">
+        <form id="chat-form" action="{{ url_for('chat')}}" method="post">
+            <input type="text" id="message-input" name="message-input" placeholder="Type your message...">
+            <button id="send-btn" type="submit">Send</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    // Function to scroll to the bottom of the chat container
+    function scrollToBottom() {
+        var chatContainer = document.querySelector('.chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    window.onload = scrollToBottom;
+</script>
+
 
 {% endblock content %}
