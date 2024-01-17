@@ -13,8 +13,7 @@
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>Is Phone Verified</th>
-                    <th>Is Email Verified</th>
-                    <th>Is Licence Verified</th>
+                    <th>Requested Verification</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,13 +23,18 @@
                         <td>{{ user[2] }}</td>
                         <td>{{ user[3] }}</td>
                         <td>{% if user[5] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
-                        <td>{% if user[6] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
-                        <td>{% if user[9] == 1 %} Verified {% else %} Not Verified {% endif %}</td>
+                        <td>{% if user[7] == 1 %} Requested {% else %} Not Requested {% endif %}</td>
 
                         <td>
-                            <form action="{{ url_for('view_user_details', user_id=user[0]) }}" method="get">
-                                <button class="button" type="submit">View Details</button>
+                            {% if user[5] == 0 %}
+                            <form action="{{ url_for('verify_user', user_id=user[0]) }}" method="post">
+                                <button class="button" type="submit">Verify User</button>
                             </form>
+                            {% elif user[5] == 1 %}
+                                <!-- Display non-clickable button for verified license -->
+                                <button class="verified-button" type="button" disabled>User Verified!</button>
+                            {% endif %}
+                            
                         </td>
                     </tr>
                 {% endfor %}
