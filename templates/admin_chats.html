@@ -3,15 +3,19 @@
 
 <div class="">
     <div class="chat-list">
+        <h3 class="chat-header">Chats</h3>
         {% for chat in chats %}
-            <a href="#" class="chat-item">
+            <a href="{{ url_for('admin_single_chat', user_id=chat[0]) }}" class="chat-item">
 
                 <div class="chat-avatar">
                     <img src="{{ url_for('static', filename='avatar.jpg') }}" alt="User Avatar">
                 </div>
 
                 <div class="chat-info">
-                    <h5 class="chat-header">{{ chat.name }}</h3>
+                    <p>{{ chat[1] }}</p>
+                </div>
+                <div class="message-count">
+                    <small>{{ chat[2] }}</small>
                 </div>
             </a>
         {% endfor %}
