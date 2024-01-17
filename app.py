@@ -176,6 +176,11 @@ def delete_account():
             cursor.execute(delete_wallet_query, (user_id,))
             db.commit()
 
+            # Delete wallet data
+            delete_chats_query = "DELETE FROM chat WHERE user_id = %s"
+            cursor.execute(delete_chats_query, (user_id,))
+            db.commit()
+
             # Delete survey data
             delete_survey_query = "DELETE FROM surveys WHERE user_id = %s"
             cursor.execute(delete_survey_query, (user_id,))
@@ -387,7 +392,7 @@ def verify_phone():
         user = cursor.fetchone()
 
         if request.method == 'POST':
-            cursor.execute("UPDATE users SET request_verification = 1 WHERE user_id = %s", (user_id,))
+            cursor.execute("UPDATE users SET request_verification = 1 WHERE id = %s", (user_id,))
             conn.commit()
             success = "A verification link will be sent to your phone number"
 
@@ -401,6 +406,42 @@ def verify_phone():
         error = "User not logged in!"
         return render_template("login.html", error=error)
 
+# Route for the chat page
+@app.route('/chat', methods=['GET','POST'])
+def chat():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        # Database connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+
+        if request.method=='POST':
+                user_id = user_id
+                admin_id = 1
+                message = request.form['message-input']
+                sender_type = 'user'
+
+                # Save the message to the database
+                save_message_query = "INSERT INTO chat (user_id, admin_id, message, sender_type) VALUES (%s, %s, %s, %s)"
+                cursor.execute(save_message_query, (user_id, admin_id, message, sender_type))
+                conn.commit()
+
+                #Get chats for specific user
+                cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
+                chats = cursor.fetchall()
+
+                return render_template('chat.html', user_id=user_id, chats=chats)
+        
+        else:
+            #Get chats for specific user
+            cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
+            chats = cursor.fetchall()
+            return render_template('chat.html', user_id=user_id, chats=chats)
+    
+    else:
+        error="User not logged in"
+        return render_template('login.html', error=error)
     
 # Route to get user wallet details
 @app.route("/wallet", methods=["GET", "POST"])
@@ -525,7 +566,38 @@ def admin_dashboard():
         error ="Admin not logged in!"
         return render_template("admin_login.html", error=error)
     
-# Admin route to display a single user's data
+
+# Route for admin to verify phone and credit users wallet
+@app.route("/verify_user/<int:user_id>", methods=["GET", "POST"])
+def verify_user(user_id):
+    if "admin_id" in session:
+        if request.method == "POST":
+            # Update the user's is_phone_verified status to 1 (verified)
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            update_query = "UPDATE users SET is_phone_verified = 1 WHERE id = %s"
+            cursor.execute(update_query, (user_id,))
+            conn.commit()
+
+            #Update wallet
+            credit_wallet_query = "UPDATE wallet SET balance = 15 WHERE user_id = %s"
+            cursor.execute(credit_wallet_query, (user_id,))
+            conn.commit()
+            conn.close()
+
+            return redirect(url_for("admin_dashboard"))
+        
+        else:
+            return redirect(url_for("admin_dashboard"))
+        
+    else:
+        # Redirect to the admin login page if not logged in
+        error ="Admin not logged in!"
+        return render_template("admin_login.html", error=error)
+
+
+    
+# Admin mark as sent verification link
 @app.route("/admin/user/<int:user_id>", methods=["GET"])
 def view_user_details(user_id):
     if "admin_id" in session:
@@ -598,56 +670,79 @@ def admin_pay_users(payout_id, user_id):
     # Redirect back to the admin payouts page
     return redirect(url_for("view_payouts"))
 
-# Route for the chat page
-@app.route('/chat')
-def chat():
-    if 'user_id' in session:
-        user_id = session['user_id']
+@app.route('/admin/chat')
+def admin_chat():
+    if "admin_id" in session:
+        # Database connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
-        return render_template('chat.html', user_id=user_id)
-    
+        # Fetch user_id, user_name, and message count for each user
+        cursor.execute("""
+            SELECT users.id as user_id, users.name as user_name, 
+                   COUNT(chat.id) as message_count
+            FROM users
+            LEFT JOIN chat ON users.id = chat.user_id
+            GROUP BY users.id
+            ORDER BY MAX(chat.timestamp) DESC;
+        """)
+
+        chats = cursor.fetchall()
+
+        return render_template('admin_chats.html', chats=chats)
+
     else:
-        error="User not logged in"
-        return render_template('login.html', error=error)
-
-# SocketIO event for handling messages
-@socketio.on('message')
-def handle_message(data):
-    # Database connection
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    sender_id = data['sender_id']
-    receiver_id = data['receiver_id']
-    message = data['message']
-
-    # Save the message to the database
-    save_message_query = "INSERT INTO chat (sender_id, receiver_id, message) VALUES (%s, %s, %s)"
-    cursor.execute(save_message_query, (sender_id, receiver_id, message))
-    conn.commit()
-
-    # Broadcast the message to the receiver
-    emit('message', {'sender_id': sender_id, 'message': message}, room=receiver_id)
+        # Redirect to the admin login page if not logged in
+        error = "Admin not logged in!"
+        return render_template("admin_login.html", error=error)
 
 
 
 
+# This route displays a single chat thread between the admin and a user
+@app.route('/admin/chat/<int:user_id>', methods=['POST', 'GET'])
+def admin_single_chat(user_id):
+    if "admin_id" in session:
+        # Database connection
+        conn = get_db_connection()
+        cursor = conn.cursor()
 
+        if request.method=='POST':
+                user_id = user_id
+                admin_id = 1
+                message = request.form['message-input']
+                sender_type = 'admin'
 
+                # Save the message to the database
+                save_message_query = "INSERT INTO chat (user_id, admin_id, message, sender_type) VALUES (%s, %s, %s, %s)"
+                cursor.execute(save_message_query, (user_id, admin_id, message, sender_type))
+                conn.commit()
 
+                #Get chats for specific user
+                cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
+                chats = cursor.fetchall()
 
+                #Get user information from database
+                cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+                user=cursor.fetchone()
 
+                return render_template('single_user_chat.html', user=user, chats=chats)
+        
+        else:
 
+            #Get chats for specific user
+            cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
+            chats = cursor.fetchall()
 
-
-
-
-
-
-
-
-
-
+            #Get user information from database
+            cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+            user=cursor.fetchone()
+            return render_template('single_user_chat.html', user=user, chats=chats)
+        
+    else:
+        # Redirect to the admin login page if not logged in
+        error ="Admin not logged in!"
+        return render_template("admin_login.html", error=error)
 
 
 
@@ -671,5 +766,15 @@ def about():
 
     return render_template("about_us.html")
 
+# Route for 404 page
+@app.errorhandler(404)
+def page_not_found(e):
+    return redirect(url_for('show_404'))
+
+# Route to render the 404.html template
+@app.route('/404')
+def show_404():
+    return render_template('404.html')
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
