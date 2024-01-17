@@ -1,0 +1,22 @@
+{% extends 'admin_main.html' %}
+{% block content %}
+
+<div class="">
+    <div class="chat-list">
+        {% for chat in chats %}
+            <a href="#" class="chat-item">
+
+                <div class="chat-avatar">
+                    <img src="{{ url_for('static', filename='avatar.jpg') }}" alt="User Avatar">
+                </div>
+
+                <div class="chat-info">
+                    <h5 class="chat-header">{{ chat.name }}</h3>
+                </div>
+            </a>
+        {% endfor %}
+
+</div>
+
+
+{% endblock content %}
