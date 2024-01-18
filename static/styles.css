@@ -19,11 +19,6 @@ body {
 .main {
     padding: 0;
     margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .header {
@@ -61,6 +56,158 @@ body {
     text-decoration: none;
     padding: 20px;
 }
+.menu-icon{
+    display: none;
+}
+
+/* Media query for mobile devices */
+@media screen and (max-width: 1000px) {
+    .header {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .navbar {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-bottom: #feea79 solid 2px;
+        border-radius: 0 0 5px 5px;
+    }
+
+    .navbar a {
+        padding: 15px;
+    }
+
+    .navbar.show {
+        display: flex;
+    }
+
+    /* Hamburger menu icon */
+    .menu-icon {
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu-icon img {
+        width: 30px;
+        height: auto;
+    }
+}
+
+/* Home Page Styles */
+.home{
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.home h1{
+    text-align: center;
+    color: #0066cc;
+}
+.home p{
+    text-align: center;
+}
+
+.home button{
+    text-align: center;
+    align-content: center;
+    color: white;
+    width: 70%;
+    margin-left: 15%;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5%;
+    background-color: #004aad;
+    border-radius: 5px;
+}
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.info img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+.info section {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px;
+    padding: 20px;
+    border: solid #feea79 2px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* About Us Page styling */
+.about-us-container {
+    display: flex;
+    margin: 10%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-us-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.about-us-container p {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Image styling */
+.about-us-container img {
+    max-width: 50%;
+    height: 50%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+
+/* FAQ Page Styles */
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    margin:10%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-container h3 {
+    color: #0066cc;
+}
+
+.faq-container p {
+    color: #444;
+}
 
 /* Sign-up Page Styles */
 .container {
@@ -72,13 +219,13 @@ body {
 
 .container img {
     width: 100%;
-    max-width: 200px;
+    max-width: 150px;
     height: auto;
 }
 
 .form {
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     margin: 20px;
     padding: 20px;
     border: solid #feea79 1px;
@@ -86,7 +233,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form h1, .form h3 {
+.form h1, .form h3, .form h2 {
     text-align: left;
     color: #173e5e;
     margin: 20px 0;
@@ -112,107 +259,37 @@ body {
     color: white;
 }
 
-/* Home Page Styles */
-.info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
-}
-
-.info img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-}
-
-.info section {
-    width: 100%;
-    max-width: 300px;
-    margin: 20px;
-    padding: 20px;
-    border: solid #feea79 2px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* About Us Page styling */
-.about-us-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.about-us-container h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.about-us-container p {
-    color: #444;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-/* Image styling */
-.about-us-container img {
-    max-width: 50%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
-
-/* FAQ Page Styles */
-.faq-container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 800px;
-    width: 100%;
-    max-width: 1000px;
-    max-height: fit-content;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.faq-container h1 {
-    text-align: center;
-    color: #333;
-}
-
-.faq-item {
-    margin-bottom: 20px;
-}
-
-.faq-container h3 {
-    color: #0066cc;
-}
-
-.faq-container p {
-    color: #444;
-}
 
 /* Survey Page Styles */
 .survey {
-    max-width: 800px;
-    margin-top: 500px;
+    display: flex;
+    flex-direction: column;
+    margin:10%;
+    border: solid #feea79 1px;
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+}
+.survey h1, .survey h2, .survey h3 {
+    text-align: center;
+    color: #173e5e;
+    margin: 15px;
 }
 
-.survey h3 {
-    margin: 15px;
+.survey button {
+    width: 200px;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #004aad;
+    border: none;
+    border-radius: 10px;
     text-align: center;
+    color: white;
 }
 
 .survey label, .survey textarea, .survey select, .survey input {
-    width: 100%;
+    width: 80%;
     padding: 8px;
     margin-bottom: 10px;
 }
@@ -221,7 +298,7 @@ body {
 .button, .verified-button {
     text-align: center;
     color: white;
-    width: 100%;
+    max-width: 200px;
     padding: 10px;
     font-size: 14px;
     border: none;
@@ -250,22 +327,14 @@ body {
 
 /* Admin Dashboard Styles */
 .dashboard-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 50px auto;
+    margin: 10%;
     padding: 20px;
     background-color: #f4f4f4;
+    border: solid #feea79 1px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.admin-details {
-    margin-top: 20px;
-}
-
-.admin-details p {
-    margin-bottom: 10px;
-}
 
 /* User Details Styles */
 .user-details-container {
@@ -299,7 +368,15 @@ body {
 .user-details-table th {
     background-color: #f2f2f2;
 }
-
+/* Action buttons*/
+.action-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.action-buttons button{
+    margin: 10px;
+}
 /* Error*/
 .error {
     color: red;
@@ -314,12 +391,11 @@ body {
 
 /* Wallet styling */
 .wallet-details {
-    margin-top: 20px;
     padding: 20px;
+    width: fit-content;
+    margin: 10%;
     border: 2px solid #feea79;
     border-radius: 5px;
-    width: 500px;
-    margin: 0 auto;
 }
 
 .wallet-details h1{
@@ -334,13 +410,18 @@ body {
 }
 
 /* Css code for chat page*/
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .chat-container{
-    height: 700px;
-    position: fixed;
+    position: absolute;
+    bottom: 0;
+    min-width: 400px;
     max-width: 600px;
-    width: 500px;
-    margin: 20px auto;
     border: 2px solid;
+    height: 95%;
     padding: 20px;
     border: solid #feea79 2px;
     border-radius: 10px;
@@ -355,7 +436,7 @@ body {
 
 .chat-body {
     padding: 20px;
-    overflow-y: auto;
+    bottom: 90%;
 }
 
 .message-item {
@@ -389,16 +470,15 @@ body {
 }
 
 .chat-footer {
-    position: absolute;
-    bottom: 0;
-    width: 90%;
+    position: fixed;
+    bottom: 1%;
     display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 10px;
     background-color: #f5f5f5;
     border-radius: 10px;
     margin-bottom: 10px;
+    min-width: 350px;
+    max-width: 600px;
   }
   
 #chat-form {
@@ -433,6 +513,7 @@ body {
   /* Css code for chat page*/
 
   .chat-list{
+    margin: 15%;
     border: solid #feea79 2px;
     border-radius: 10px;
     padding: 30px;

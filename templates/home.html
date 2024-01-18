@@ -23,14 +23,17 @@
                 <a href="{{ url_for('login')}}">Login</a>
                 <button class="button" onclick="location.href='/register'">Register Now</button>
             </nav>
+            <div class="menu-icon">
+                <img src="{{ url_for('static', filename='hamburger_icon.png') }}" alt="Menu">
+            </div>
         </div>
 
 
-        <div>
+        <div class="home">
 
         <h1>Welcome to our survey!</h1>
         <p>Your opinions matter to us. Participate in our survey and get paid <strong>15$!</strong> </p>
-        <button class="button" onclick="location.href='/register'">Register Now</button>
+        <button onclick="location.href='/register'">Register Now</button>
 
         </div>
 
@@ -54,5 +57,6 @@
             </section>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-document.getElementById('phone_number').addEventListener('input', function (event) {
+/*document.getElementById('phone_number').addEventListener('input', function (event) {
     var phoneNumber = event.target.value.replace(/\D/g, ''); // Remove non-digits
     var formattedPhoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     event.target.value = formattedPhoneNumber;
@@ -52,3 +52,22 @@ function validatePassword() {
 
     return true; // Allow form submission
 }
+*/
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Toggle mobile menu
+    var navbar = document.querySelector('.navbar');
+    var menuIcon = document.querySelector('.menu-icon');
+
+    console.log('DOMContentLoaded event fired');
+
+    if (menuIcon && navbar) {
+        menuIcon.addEventListener('click', function () {
+            navbar.classList.toggle('show');
+            console.log('Menu icon clicked');
+        });
+    } else {
+        console.log('Menu icon or navbar not found');
+    }
+});
+

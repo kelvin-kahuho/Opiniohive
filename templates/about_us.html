@@ -22,6 +22,9 @@
                 <a href="{{ url_for('login')}}">Login</a>
                 <button class="button" onclick="location.href='/register'">Register Now</button>
             </nav>
+            <div class="menu-icon">
+                <img src="{{ url_for('static', filename='hamburger_icon.png') }}" alt="Menu">
+            </div>
         </div>
 
         <div class="about-us-container">
@@ -49,5 +52,6 @@
         </div>
 
     </div>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>

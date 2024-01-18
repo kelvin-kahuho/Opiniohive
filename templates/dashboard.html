@@ -3,7 +3,7 @@
 
 <h3>Welcome {{ user[1] }}!</h3>
 
-<section class="notification-section">
+<section class="dashboard-container">
 
     <div class="users-table">
         <h2>Notifications</h2>
@@ -35,17 +35,17 @@
             </tbody>
         </table>
     </div>
+    <section class="survey-summary">
+        <h2>Survey Summary</h2>
+        <p>Total Surveys Completed: {{ survey_count }}</p>
+    
+        {% if average_satisfaction %}
+        <p>Average Satisfaction Rating: {{ average_satisfaction }}%</p>
+        {% endif %}
+    
+    </section>
 </section>
 
-<section class="survey-summary">
-    <h2>Survey Summary</h2>
-    <p>Total Surveys Completed: {{ survey_count }}</p>
-
-    {% if average_satisfaction %}
-    <p>Average Satisfaction Rating: {{ average_satisfaction }}%</p>
-    {% endif %}
-
-</section>
 
 
 
