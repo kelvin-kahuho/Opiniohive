@@ -1,2 +1,2 @@
 # Opiniohive
-Data collection app for my client
+Data collection app
