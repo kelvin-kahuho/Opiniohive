@@ -20,7 +20,7 @@ def get_db_connection():
         host='localhost',
         user='root',
         password='heartattack2023',
-        database='opiniohive'
+        database='gedexper_opiniohive'
     )
     return conn
 
