@@ -4,12 +4,10 @@ import re
 import mysql.connector
 import hashlib
 import random
-from flask_socketio import SocketIO, emit
 
 
 #Initialize the Flask Application
 app = Flask(__name__)
-socketio = SocketIO(app)
 
 # Set a secret key for the session
 app.secret_key = 'This is my secret key for opinionhive app'
@@ -20,7 +18,7 @@ def get_db_connection():
         host='localhost',
         user='root',
         password='heartattack2023',
-        database='gedexper_opiniohive'
+        database='opiniohive'
     )
     return conn
 
@@ -405,43 +403,6 @@ def verify_phone():
     else:
         error = "User not logged in!"
         return render_template("login.html", error=error)
-
-# Route for the chat page
-@app.route('/chat', methods=['GET','POST'])
-def chat():
-    if 'user_id' in session:
-        user_id = session['user_id']
-        # Database connection
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-
-        if request.method=='POST':
-                user_id = user_id
-                admin_id = 1
-                message = request.form['message-input']
-                sender_type = 'user'
-
-                # Save the message to the database
-                save_message_query = "INSERT INTO chat (user_id, admin_id, message, sender_type) VALUES (%s, %s, %s, %s)"
-                cursor.execute(save_message_query, (user_id, admin_id, message, sender_type))
-                conn.commit()
-
-                #Get chats for specific user
-                cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
-                chats = cursor.fetchall()
-
-                return render_template('chat.html', user_id=user_id, chats=chats)
-        
-        else:
-            #Get chats for specific user
-            cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
-            chats = cursor.fetchall()
-            return render_template('chat.html', user_id=user_id, chats=chats)
-    
-    else:
-        error="User not logged in"
-        return render_template('login.html', error=error)
     
 # Route to get user wallet details
 @app.route("/wallet", methods=["GET", "POST"])
@@ -669,90 +630,6 @@ def admin_pay_users(payout_id, user_id):
 
     # Redirect back to the admin payouts page
     return redirect(url_for("view_payouts"))
-
-@app.route('/admin/chat')
-def admin_chat():
-    if "admin_id" in session:
-        # Database connection
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        # Fetch user_id, user_name, and message count for each user
-        cursor.execute("""
-            SELECT users.id as user_id, users.name as user_name, 
-                   COUNT(chat.id) as message_count
-            FROM users
-            LEFT JOIN chat ON users.id = chat.user_id
-            GROUP BY users.id
-            ORDER BY MAX(chat.timestamp) DESC;
-        """)
-
-        chats = cursor.fetchall()
-
-        return render_template('admin_chats.html', chats=chats)
-
-    else:
-        # Redirect to the admin login page if not logged in
-        error = "Admin not logged in!"
-        return render_template("admin_login.html", error=error)
-
-
-
-
-# This route displays a single chat thread between the admin and a user
-@app.route('/admin/chat/<int:user_id>', methods=['POST', 'GET'])
-def admin_single_chat(user_id):
-    if "admin_id" in session:
-        # Database connection
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        if request.method=='POST':
-                user_id = user_id
-                admin_id = 1
-                message = request.form['message-input']
-                sender_type = 'admin'
-
-                # Save the message to the database
-                save_message_query = "INSERT INTO chat (user_id, admin_id, message, sender_type) VALUES (%s, %s, %s, %s)"
-                cursor.execute(save_message_query, (user_id, admin_id, message, sender_type))
-                conn.commit()
-
-                #Get chats for specific user
-                cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
-                chats = cursor.fetchall()
-
-                #Get user information from database
-                cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-                user=cursor.fetchone()
-
-                return render_template('single_user_chat.html', user=user, chats=chats)
-        
-        else:
-
-            #Get chats for specific user
-            cursor.execute("SELECT * FROM chat WHERE user_id = %s", (user_id,))
-            chats = cursor.fetchall()
-
-            #Get user information from database
-            cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-            user=cursor.fetchone()
-            return render_template('single_user_chat.html', user=user, chats=chats)
-        
-    else:
-        # Redirect to the admin login page if not logged in
-        error ="Admin not logged in!"
-        return render_template("admin_login.html", error=error)
-
-
-
-
-
-
-
-
-
-
 
 #FAQ route
 @app.route("/FAQ", methods=["Get"])
