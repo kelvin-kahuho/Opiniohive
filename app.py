@@ -4,6 +4,9 @@ import re
 import mysql.connector
 import hashlib
 import random
+# Download the helper library from https://www.twilio.com/docs/python/install
+import os
+from twilio.rest import Client
 
 
 #Initialize the Flask Application
@@ -11,6 +14,13 @@ app = Flask(__name__)
 
 # Set a secret key for the session
 app.secret_key = 'This is my secret key for opinionhive app'
+
+# Set environment variables for your credentials
+account_sid = "AC3896db49c2fe15d42dec509aff93902e"
+auth_token = os.environ["6901fa40dc7b55de861adf601e869f4d"]
+verify_sid = "VA0c28c79be60fb0fae46b6eba42e96c21"
+
+client = Client(account_sid, auth_token)
 
 #Database connection configuration
 def get_db_connection():
@@ -134,7 +144,57 @@ def is_valid_password(password):
 def hash_password(password):
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
+#Function to check if user has verified phone_number
+def verify_phone_number():
+    if 'user_id' in session:
+        db = get_db_connection()
+        cursor = db.cursor()
+        user_id = session['user_id']
+        # Query to get user info
+        cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
+        user = cursor.fetchone()
+        return user[8]
 
+    else:
+        error="User not logged in"
+        return render_template('login.html', error=error)
+
+@app.route("/send_verification_code")
+def send_verification_code():
+    phone_number = request.args.get("phone_number")
+    if phone_number:
+        verification = client.verify \
+            .services(verify_sid) \
+            .verifications \
+            .create(to=phone_number, channel="sms")
+        session['verification_sid'] = verification.sid
+        return redirect("/verify")
+    else:
+        return render_template("send_code.html")
+    
+@app.route("/verify_code")
+def verify_code():
+    verification_sid = session.get("verification_sid")
+    if verification_sid:
+        verification_check = client.verify \
+            .services(verify_sid) \
+            .verification_checks \
+            .create(to=session.get("phone_number"), code=request.args.get("code"))
+        if verification_check.status == "approved":
+            db = get_db_connection()
+            cursor = db.cursor()
+            user_id = session['user_id']
+            cursor.execute("UPDATE users SET phone_verified=1 WHERE id=%s", (user_id,))
+            db.commit()
+            success = "Phone number verified!" 
+
+            return
+        else:
+
+            error = "Invalid code. Please try again."
+            return 
+    else:
+        return redirect(url_for("dashboard"))
 
 #Login Route
 @app.route("/login", methods=["GET", "POST"])
@@ -297,6 +357,13 @@ def dashboard():
         cursor = db.cursor()
         cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
         user = cursor.fetchone()
+
+        # Checks if user has verified their phone number
+        has_user_verified_their_phone = verify_phone_number()
+        if not has_user_verified_their_phone:
+            user=user
+            phone_number=user[3]
+            return render_template('verify_popup.html', user=user, phone_number=phone_number)
 
         # Assuming user_id is the user ID you want to get the survey count for
         cursor.execute("SELECT COUNT(*) FROM surveys WHERE user_id = %s", (user_id,))
