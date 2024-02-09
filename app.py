@@ -17,9 +17,8 @@ app.secret_key = 'This is my secret key for opinionhive app'
 
 # Set environment variables for your credentials
 account_sid = "AC3896db49c2fe15d42dec509aff93902e"
-auth_token = os.environ["6901fa40dc7b55de861adf601e869f4d"]
+auth_token = "6901fa40dc7b55de861adf601e869f4d"
 verify_sid = "VA0c28c79be60fb0fae46b6eba42e96c21"
-
 client = Client(account_sid, auth_token)
 
 #Database connection configuration
@@ -59,6 +58,8 @@ def register():
         if not is_valid_us_phone_number(phone_number):
             error = "Invalid phone number format. Please use the format xxx-xxx-xxxx."
             return render_template("signup.html", error=error)
+        
+        phone_number = "".join(char for char in phone_number if char.isdigit())
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
 
@@ -159,40 +160,34 @@ def verify_phone_number():
         error="User not logged in"
         return render_template('login.html', error=error)
 
-@app.route("/send_verification_code")
-def send_verification_code():
-    phone_number = request.args.get("phone_number")
-    if phone_number:
-        verification = client.verify \
-            .services(verify_sid) \
-            .verifications \
-            .create(to=phone_number, channel="sms")
-        session['verification_sid'] = verification.sid
-        return redirect("/verify")
-    else:
-        return render_template("send_code.html")
+def send_verification_code(phone_number):
+    verification = client.verify \
+        .services(verify_sid) \
+        .verifications \
+        .create(to=phone_number, channel="sms")
+    session['verification_sid'] = verification.sid
+
     
-@app.route("/verify_code")
+@app.route("/verify_code", methods=["POST"])
 def verify_code():
     verification_sid = session.get("verification_sid")
     if verification_sid:
+        code = request.form.get("verification_code")
         verification_check = client.verify \
             .services(verify_sid) \
             .verification_checks \
-            .create(to=session.get("phone_number"), code=request.args.get("code"))
+            .create(to=session.get("phone_number"), code=code)
         if verification_check.status == "approved":
             db = get_db_connection()
             cursor = db.cursor()
             user_id = session['user_id']
             cursor.execute("UPDATE users SET phone_verified=1 WHERE id=%s", (user_id,))
             db.commit()
-            success = "Phone number verified!" 
-
-            return
+            success = "Phone number verified!"
+            return redirect(url_for("dashboard"))
         else:
-
             error = "Invalid code. Please try again."
-            return 
+            return render_template('verify_popup.html', error=error)
     else:
         return redirect(url_for("dashboard"))
 
@@ -363,7 +358,8 @@ def dashboard():
         if not has_user_verified_their_phone:
             user=user
             phone_number=user[3]
-            return render_template('verify_popup.html', user=user, phone_number=phone_number)
+            send_verification_code(phone_number)
+            return render_template('verify_popup.html', user=user)
 
         # Assuming user_id is the user ID you want to get the survey count for
         cursor.execute("SELECT COUNT(*) FROM surveys WHERE user_id = %s", (user_id,))
