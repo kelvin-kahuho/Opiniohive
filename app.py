@@ -15,12 +15,6 @@ app = Flask(__name__)
 # Set a secret key for the session
 app.secret_key = 'This is my secret key for opinionhive app'
 
-# Set environment variables for your credentials
-account_sid = "AC3896db49c2fe15d42dec509aff93902e"
-auth_token = "6901fa40dc7b55de861adf601e869f4d"
-verify_sid = "VA0c28c79be60fb0fae46b6eba42e96c21"
-client = Client(account_sid, auth_token)
-
 #Database connection configuration
 def get_db_connection():
     conn = mysql.connector.connect(
@@ -30,6 +24,44 @@ def get_db_connection():
         database='opiniohive'
     )
     return conn
+
+
+# Set environment variables for your credentials
+account_sid = "AC3896db49c2fe15d42dec509aff93902e"
+auth_token = "04e3f304bff8ead73fe8e5169cad97b0"
+verify_sid = "VA0c28c79be60fb0fae46b6eba42e96c21"
+client = Client(account_sid, auth_token)
+
+
+def send_verification_code(phone_number):
+    verification = client.verify.v2.services(verify_sid) \
+        .verifications \
+        .create(to=phone_number, channel="sms")
+    session['verification_sid'] = verification.sid
+    session['phone_number'] = phone_number
+
+    
+@app.route("/verify_code", methods=["POST"])
+def verify_code():
+    verification_sid = session["verification_sid"]
+    if verification_sid:
+        code = request.form["verification_code"]
+        verification_check = client.verify.v2.services(verify_sid) \
+            .verification_checks \
+            .create(to=session["phone_number"], code=code)
+        if verification_check.status == "approved":
+            db = get_db_connection()
+            cursor = db.cursor()
+            user_id = session['user_id']
+            cursor.execute("UPDATE users SET phone_verified=1 WHERE id=%s", (user_id,))
+            db.commit()
+            success = "Phone number verified!"
+            return redirect(url_for("dashboard"))
+        else:
+            error = "Invalid code. Please try again."
+            return render_template('verify_popup.html', error=error)
+    else:
+        return redirect(url_for("dashboard"))
 
 
 #Defining routes
@@ -159,37 +191,6 @@ def verify_phone_number():
     else:
         error="User not logged in"
         return render_template('login.html', error=error)
-
-def send_verification_code(phone_number):
-    verification = client.verify \
-        .services(verify_sid) \
-        .verifications \
-        .create(to=phone_number, channel="sms")
-    session['verification_sid'] = verification.sid
-
-    
-@app.route("/verify_code", methods=["POST"])
-def verify_code():
-    verification_sid = session.get("verification_sid")
-    if verification_sid:
-        code = request.form.get("verification_code")
-        verification_check = client.verify \
-            .services(verify_sid) \
-            .verification_checks \
-            .create(to=session.get("phone_number"), code=code)
-        if verification_check.status == "approved":
-            db = get_db_connection()
-            cursor = db.cursor()
-            user_id = session['user_id']
-            cursor.execute("UPDATE users SET phone_verified=1 WHERE id=%s", (user_id,))
-            db.commit()
-            success = "Phone number verified!"
-            return redirect(url_for("dashboard"))
-        else:
-            error = "Invalid code. Please try again."
-            return render_template('verify_popup.html', error=error)
-    else:
-        return redirect(url_for("dashboard"))
 
 #Login Route
 @app.route("/login", methods=["GET", "POST"])
