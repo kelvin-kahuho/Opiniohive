@@ -15,14 +15,14 @@
             <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
         </a>   
 
-        <form class="form" action="{{ url_for('verify_phone', phone_number=phone_number) }}"  method="POST">
+        <form class="form" action="{{ url_for('verify_code')}}"  method="POST">
             <p class="error">{{ error }}</p>
             <p class="error">{{ success }}</p>
         
             <h1>Verify Your Phone Number</h1>
             <label for="verification_code">Enter Code Sent to {{ user[3]}}:</label>
-            <a style="text-decoration: none; margin-bottom: 10px; margin-top: 10px;" href="#">Resend Code</a>
-            <input type="" id="verification_code" name="verification_code"required>
+            <a style="text-decoration: none; margin-bottom: 10px; margin-top: 10px;" href="{{ url_for('dashboard')}}">Resend Code</a>
+            <input type="text" id="verification_code" name="verification_code"required>
             <button class="button" type="submit">Enter</button>
         </form>
         
